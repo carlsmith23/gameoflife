@@ -4,55 +4,49 @@ from cell import Cell
 class Map:
     def __init__(self):
         self.list = []
-        self.size = 100
-
-    def generate(self): 
-        map = []
-        list_length = 0
-        self.size = int(self.size)
-        for list_length in range(self.size * self.size):
-            value = random.randint(0, 1)
-            self.list.append(value)
-        return map
+        self.size = 36
 
 
-    def ngenerate(self):
+    def generate(self):
         for row in range(self.size):
             column_list = []
             for column in range(self.size):
                 column_list.append(0) 
             self.list.append(column_list)
 
+    def make_alive(self):
+        self.list[6][6] = 1
+        self.list[6][7] = 1
+        self.list[6][8] = 1
+        self.list[7][6] = 1
+        self.list[7][7] = 1
+        self.list[7][8] = 1
+        self.list[8][6] = 1
+        self.list[8][7] = 1
+        self.list[8][8] = 1
 
     def display(self):
-        col = 0
-        row = 0
-        x = 0
-        for row in range(self.size):
-            for col in range(self.size):
-                if self.list[(col+x)] == 1:
-                    print("X", end="")
-                else:
-                    print(" ", end="")
-            x = x + self.size
-            print("")
-
-
-    def ndisplay(self):
-        col = 0
-        row = 0
-        x = 0
+        list_as_string = ""
+        #if len(self.list) < 0:
         for row in range(self.size):
             for col in range(self.size):
                 if self.list[row][col] == 1:
-                    print("X", end="")
+                    list_as_string = list_as_string + "⬛"
                 else:
-                    print(" ", end="")
-            print("")
+                    list_as_string = list_as_string + "🔲"
+            list_as_string = list_as_string + "\n"
+        return list_as_string
+        #else:
+            #return "Error: Generate map first"
+
 
     def update(self):
         new_list = []
-        for i in range(self.size * self.size):
-            cell = Cell(i, self.size, self.list, new_list)
-            new_list = cell.iterate()
+        for row in range(self.size):
+            new_col_list = []
+            for col in range(self.size):
+                index = row, col
+                cell = Cell(index, self.size, self.list, new_list)
+                new_col_list.append(cell.iterate())
+            new_list.append(new_col_list)
         self.list = new_list

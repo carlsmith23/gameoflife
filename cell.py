@@ -11,28 +11,31 @@ class Cell:
 
     def count_neighbors(self):
         neighbor_list = []
-        neighbor_list[0] = (self.index - self.size) - 1
-        neighbor_list[1] = self.index - self.size
-        neighbor_list[2] = (self.index - self.size) + 1
-        neighbor_list[3] = self.index - 1
-        neighbor_list[4] = self.index + 1
-        neighbor_list[5] = (self.index + self.size) - 1
-        neighbor_list[6] = self.index + self.size
-        neighbor_list[7] = (self.index + self.size) + 1
+        row = self.index[0]
+        column = self.index[1]
+        neighbor_list.append(self.list[(row - 1) % self.size][(column  - 1) % self.size])
+        neighbor_list.append(self.list[(row - 1) % self.size][column % self.size])
+        neighbor_list.append(self.list[(row - 1) % self.size][(column  + 1) % self.size])
+        neighbor_list.append(self.list[row % self.size][(column  - 1) % self.size])
+        #current cell = self.list[row % self.size][column % self.size])
+        neighbor_list.append(self.list[row % self.size][(column  + 1) % self.size])
+        neighbor_list.append(self.list[(row + 1) % self.size][(column  - 1) % self.size])
+        neighbor_list.append(self.list[(row + 1) % self.size][column % self.size])
+        neighbor_list.append(self.list[(row + 1) % self.size][(column  + 1) % self.size])
         return neighbor_list.count(1)
  
 
     def iterate(self):
         count = self.count_neighbors()
-        if list[self.index] == 1:
+        if self.list[self.index[0]][self.index[1]] == 1:
             if count == 2 or count == 3:
-                self.new_list[self.index] = 1
+                return 1
             else:  
-                self.new_list[self.index] = 0
+                return 0
         else:
             if count == 3:
-                self.new_list[self.index] = 1
+                return 1
             else:
-                self.new_list[self.index] = 0
-        return self.new_list
+                return 0
+
 

@@ -7,10 +7,8 @@ class Menu:
 
     def main_loop(self):
         map = Map()
-        map.ngenerate()
+        map.generate()
         while self.run == 1:
-            map.ndisplay()
-            print("")
-            self.b = input("(U)pdate")
-            if self.b == "u" or self.b == "U":
-                map.update()
+            map.display()
+            print("\033[2J")
+            map.update()
