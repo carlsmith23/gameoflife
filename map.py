@@ -7,18 +7,29 @@ class Map:
         self.list = []
         self.count = 1
         settings = Settings()
-        self.size = settings.size
+        self.columns = settings.columns
 
 
-
-    def generate(self):
-        for row in range(self.size):
+    def generate_random(self):
+        for row in range(self.columns):
             column_list = []
-            for column in range(self.size*2):
+            for column in range(self.columns*3):
+                column_list.append(0)
                 column_list.append(random.randint(0, 1)) 
             self.list.append(column_list)
 
-    def make_alive(self):
+
+    def generate(self):
+        for row in range(self.columns):
+            column_list = []
+            for column in range(self.columns*3):
+                column_list.append(0)
+                #column_list.append(random.randint(0, 1)) 
+            self.list.append(column_list)
+        self.make_alive()
+        
+
+    def make_alive(self): #manual initial state, currently two gliders
         self.list[6][6] = 0
         self.list[6][7] = 1
         self.list[6][8] = 0
@@ -45,10 +56,10 @@ class Map:
         count_as_string = str(self.count)
         list_as_string = count_as_string + "\n"
         #if len(self.list) < 0:
-        for row in range(self.size):
-            for col in range(self.size*2):
+        for row in range(self.columns):
+            for col in range(self.columns*3):
                 if self.list[row][col] == 1:
-                    list_as_string = list_as_string + "X"
+                    list_as_string = list_as_string + "x"
                 else:
                     list_as_string = list_as_string + " "
             list_as_string = list_as_string + "\n"
@@ -59,12 +70,17 @@ class Map:
 
     def update(self):
         new_list = []
-        for row in range(self.size):
+        for row in range(self.columns):
             new_col_list = []
-            for col in range(self.size*2):
+            for col in range(self.columns*3):
                 index = row, col
-                cell = Cell(index, self.size, self.list, new_list)
+                cell = Cell(index, self.columns, self.list, new_list)
                 new_col_list.append(cell.iterate())
             new_list.append(new_col_list)
         self.list = new_list
         self.count += 1
+
+
+    class Set_seed:
+        def __init__(self):
+            pass
